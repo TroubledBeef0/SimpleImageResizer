@@ -149,29 +149,8 @@
                 let reader = new FileReader();
                 reader.onload = function(event) {
                     let imagePreview = document.getElementById("imagePreview");
-                    let img = new Image();
-                    img.onload = function() {
-                        let canvas = document.createElement("canvas");
-                        let context = canvas.getContext("2d");
-                        
-                        // Resize the canvas to match the image dimensions
-                        let previewWidth = 200;  // Set a fixed preview width
-                        let previewHeight = (img.height / img.width) * previewWidth;  // Maintain aspect ratio
-                        
-                        canvas.width = previewWidth;
-                        canvas.height = previewHeight;
-
-                        // Disable smoothing to make the preview pixelated
-                        context.imageSmoothingEnabled = false;
-                        
-                        // Draw image on the canvas with pixelation
-                        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        // Set the preview image to the canvas data (pixelated)
-                        imagePreview.src = canvas.toDataURL();
-                        imagePreview.style.display = "block"; // Show the image preview
-                    };
-                    img.src = event.target.result;
+                    imagePreview.src = event.target.result;
+                    imagePreview.style.display = "block"; // Show the image preview
                 };
                 reader.readAsDataURL(file);
             }
@@ -196,14 +175,13 @@
                 let img = new Image();
                 img.onload = () => {
                     let canvas = document.getElementById("canvas");
-
+                    
                     // If width or height is not set, use original image size
                     canvas.width = width || img.width;
                     canvas.height = height || img.height;
 
-                    // Resize the image on the canvas with smooth resizing (default behavior)
+                    // Resize the image on the canvas
                     let context = canvas.getContext("2d");
-                    context.imageSmoothingEnabled = true; // Ensure smooth resizing here
                     context.drawImage(img, 0, 0, canvas.width, canvas.height);
                     
                     let link = document.createElement("a");
